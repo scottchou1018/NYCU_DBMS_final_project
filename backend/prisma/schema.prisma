@@ -4,11 +4,116 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+
+model User{
+    userId      Int         @id @default(autoincrement())
+    username    String      @unique
+    password    String
+
+    userGroup   UserGroup[]
+
+}
+
+
+
+model Group{
+    groupId     Int         @id @default(autoincrement())
+    groupName   String
+
+    userGroup   UserGroup[]
+    groupTeam   GroupTeam[]
+}
+
+model Team {
+    teamId      Int         @id @default(autoincrement())
+    teamName    String
+
+    teamCFUser  TeamCFUser[]
+    groupTeam   GroupTeam[]
+    participation Participation[]
+}
+
+model CFuser{
+    CFuserId            Int         @id @default(autoincrement())
+    handle              String
+    lastSubmissionId    Int
+    teamCFUser          TeamCFUser[]
+
+}
+
+model Contest{
+    contestId       Int         @id @default(autoincrement())
+    contestName     String
+    participation  Participation[]
+}
+
+model ProblemResult{
+    resultId        Int         @id @default(autoincrement())
+    teamId          Int
+    contestId       Int
+    problemName     String
+    problemIndex    String
+    penalty         Int
+    status          PROBLEM_STATUS
+    triesCount      Int
+    participation   Participation @relation(fields: [teamId, contestId], references: [teamId, contestId])
+}
+
+model Participation{
+    teamId          Int
+    contestId       Int
+    ACCount         Int
+    totalPenalty    Int
+
+    team            Team    @relation(fields: [teamId], references: [teamId])
+    contest         Contest @relation(fields: [contestId], references: [contestId])
+    problemResults  ProblemResult[]
+    @@id([teamId, contestId])
+}
+
+model TeamCFUser{
+    teamId      Int
+    CFuserId    Int
+    team        Team    @relation(fields: [teamId], references: [teamId])
+    CFUser      CFuser   @relation(fields: [CFuserId], references: [CFuserId])
+    @@id([teamId, CFuserId])
+}
+
+model UserGroup{
+    
+    groupId     Int
+    userId      Int
+    user        User    @relation(fields: [userId], references: [userId])
+    group       Group   @relation(fields: [groupId], references: [groupId])
+    @@id([groupId, userId])
+}
+
+model GroupTeam{
+    groupId     Int
+    teamId      Int
+    group       Group   @relation(fields: [groupId], references: [groupId])
+    team        Team    @relation(fields: [teamId], references: [teamId])
+    @@id([groupId, teamId])
+}
+
+
+
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+    provider = "mysql"
+    url      = env("DATABASE_URL")
+}
+
+
+
+enum PROBLEM_STATUS{
+    AC
+    WA
+    TLE
+    MLE
+    RE
+    CE
 }
