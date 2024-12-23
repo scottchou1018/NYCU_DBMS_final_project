@@ -6,10 +6,11 @@ import { GroupModule } from './group/group.module';
 import { TeamModule } from './team/team.module';
 import { ContestModule } from './contest/contest.module';
 import { ScoreboardModule } from './scoreboard/scoreboard.module';
+import { DatabaseService } from './database/database.service';
 
 @Module({
   imports: [UserModule, GroupModule, TeamModule, ContestModule, ScoreboardModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, DatabaseService],
 })
 export class AppModule {}
