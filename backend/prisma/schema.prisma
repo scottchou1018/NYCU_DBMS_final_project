@@ -28,7 +28,7 @@ model Team {
     teamId      Int         @id @default(autoincrement())
     teamName    String
 
-    teamCFUser  TeamCFUser[]
+    teamCFuser  TeamCFuser[]
     groupTeam   GroupTeam[]
     participation Participation[]
 }
@@ -37,7 +37,7 @@ model CFuser{
     CFuserId            Int         @id @default(autoincrement())
     handle              String      @unique
     lastSubmissionId    Int
-    teamCFUser          TeamCFUser[]
+    teamCFuser          TeamCFuser[]
 
 }
 
@@ -71,7 +71,7 @@ model Participation{
     @@id([teamId, contestId])
 }
 
-model TeamCFUser{
+model TeamCFuser{
     teamId      Int
     CFuserId    Int
     team        Team    @relation(fields: [teamId], references: [teamId], onDelete: Cascade)
