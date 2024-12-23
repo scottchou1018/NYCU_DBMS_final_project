@@ -1,7 +1,8 @@
-import { BadRequestException, ConflictException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { BadRequestException, ConflictException, Get, HttpException, HttpStatus, Injectable, UseGuards } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { DatabaseService } from 'src/database/database.service';
 import * as bcrypt from 'bcrypt'
+import { LoginedGuard } from 'src/auth/utils/guards/LoginedGuard';
 @Injectable()
 export class UserService {
     constructor(private readonly databaseService: DatabaseService){}
@@ -21,6 +22,26 @@ export class UserService {
                 throw error;
             }
         }
+    }
+
+    // find user's groups via userId
+    async findGroups(userId: number){
+        const groups = await this.databaseService.userGroup.findMany({
+            select: {
+                groupId:true
+            },
+            where:{
+                userId: userId
+            },
+            
+        })
+        let groupReturnFormat = {
+            groups: []
+        }
+        for(let group of groups){
+            groupReturnFormat['groups'].push(group['groupId'])
+        }
+        return groupReturnFormat
     }
 
     async findOne(userId: number){

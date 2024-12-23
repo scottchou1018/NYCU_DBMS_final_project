@@ -1,6 +1,7 @@
-import { BadRequestException, Body, Controller, Get, Post, Request } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Post, Req, Request, UseGuards } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { UserService } from './user.service';
+import { LoginedGuard } from 'src/auth/utils/guards/LoginedGuard';
 
 @Controller('user')
 export class UserController {
@@ -10,5 +11,11 @@ export class UserController {
     createUser(@Body() createUserDto: Prisma.UserCreateInput){
 
         return this.userService.create(createUserDto);
+    }
+
+    @UseGuards(LoginedGuard)
+    @Get('/group')
+    getGroups(@Req() req){
+        return this.userService.findGroups(req.user.userId)
     }
 }
