@@ -35,7 +35,7 @@ model Team {
 
 model CFuser{
     CFuserId            Int         @id @default(autoincrement())
-    handle              String
+    handle              String      @unique
     lastSubmissionId    Int
     teamCFUser          TeamCFUser[]
 
@@ -56,17 +56,17 @@ model ProblemResult{
     penalty         Int
     status          PROBLEM_STATUS
     triesCount      Int
-    participation   Participation @relation(fields: [teamId, contestId], references: [teamId, contestId])
+    participation   Participation @relation(fields: [teamId, contestId], references: [teamId, contestId], onDelete: Cascade)
 }
 
 model Participation{
     teamId          Int
     contestId       Int
-    ACCount         Int
+    ACcount         Int
     totalPenalty    Int
 
-    team            Team    @relation(fields: [teamId], references: [teamId])
-    contest         Contest @relation(fields: [contestId], references: [contestId])
+    team            Team    @relation(fields: [teamId], references: [teamId], onDelete: Cascade)
+    contest         Contest @relation(fields: [contestId], references: [contestId], onDelete: Cascade)
     problemResults  ProblemResult[]
     @@id([teamId, contestId])
 }
@@ -74,8 +74,8 @@ model Participation{
 model TeamCFUser{
     teamId      Int
     CFuserId    Int
-    team        Team    @relation(fields: [teamId], references: [teamId])
-    CFUser      CFuser   @relation(fields: [CFuserId], references: [CFuserId])
+    team        Team    @relation(fields: [teamId], references: [teamId], onDelete: Cascade)
+    CFuser      CFuser   @relation(fields: [CFuserId], references: [CFuserId], onDelete: Cascade)
     @@id([teamId, CFuserId])
 }
 
@@ -83,16 +83,16 @@ model UserGroup{
     
     groupId     Int
     userId      Int
-    user        User    @relation(fields: [userId], references: [userId])
-    group       Group   @relation(fields: [groupId], references: [groupId])
+    user        User    @relation(fields: [userId], references: [userId], onDelete: Cascade)
+    group       Group   @relation(fields: [groupId], references: [groupId], onDelete: Cascade)
     @@id([groupId, userId])
 }
 
 model GroupTeam{
     groupId     Int
     teamId      Int
-    group       Group   @relation(fields: [groupId], references: [groupId])
-    team        Team    @relation(fields: [teamId], references: [teamId])
+    group       Group   @relation(fields: [groupId], references: [groupId], onDelete: Cascade)
+    team        Team    @relation(fields: [teamId], references: [teamId], onDelete: Cascade)
     @@id([groupId, teamId])
 }
 
