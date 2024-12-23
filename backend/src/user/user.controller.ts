@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Post, Request } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { UserService } from './user.service';
 
@@ -11,5 +11,4 @@ export class UserController {
 
         return this.userService.create(createUserDto);
     }
-
 }
