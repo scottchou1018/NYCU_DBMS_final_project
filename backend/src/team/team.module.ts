@@ -6,6 +6,7 @@ import { DatabaseModule } from 'src/database/database.module';
 @Module({
   imports: [DatabaseModule],
   providers: [TeamService],
-  controllers: [TeamController]
+  controllers: [TeamController],
+  exports: [TeamService]
 })
 export class TeamModule {}
