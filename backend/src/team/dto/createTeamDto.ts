@@ -4,10 +4,10 @@ export class CreateTeamDto{
     
     @IsString()
     @IsNotEmpty()
-    public readonly teamname: string;
+    public readonly teamName: string;
 
     @IsArray()
     @IsString({each: true})
     @ArrayMinSize(1)
-    public readonly teammates: string[];
+    public readonly members: string[];
 }
