@@ -26,7 +26,7 @@ export class UserService {
 
     // find user's groups via userId
     async findGroups(userId: number){
-        const groups = await this.databaseService.userGroup.findMany({
+        const groups = await this.databaseService.group.findMany({
             select: {
                 groupId:true
             },
