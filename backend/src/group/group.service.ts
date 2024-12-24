@@ -160,6 +160,8 @@ export class GroupService {
                 contestSet.add(contest)
             }
         }
-        return Array.from(contestSet)
+        return {
+            "contests": Array.from(contestSet)
+        }
     }
 }
