@@ -114,6 +114,39 @@ export class TeamService {
 
     }
 
+    async getTeamContest(userId: number, teamId: number){
+        const team = await this.databaseService.team.findUnique({
+            where:{
+                teamId: teamId
+            }
+        })
+
+        if(!team){
+            throw new BadRequestException("the team is not found")
+        }
+        if(team.userId != userId){
+            throw new ForbiddenException("this team is not create by you")
+        }
+
+        const contests = await this.databaseService.participation.findMany({
+            where:{
+                teamId: teamId
+            },
+            select:{
+                contestId: true
+            }
+        })
+
+        const contestIds = []
+        for(let contest of contests){
+            contestIds.push(contest.contestId)
+        }
+
+        return {
+            "contests": contestIds
+        };
+    }
+
     // transform the members database format to return format
     membersFormatTransform(members_database_format){
         let return_format = []

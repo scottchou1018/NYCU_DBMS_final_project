@@ -28,6 +28,12 @@ export class TeamController {
     getTeamInfo(@Req() req, @Param('teamId') teamId: string){
         return this.teamService.getTeamInfo(req.user.userId, +teamId);
     }
+
+    @UseGuards(LoginedGuard)
+    @Get('contest/:teamId')
+    getTeamContest(@Req() req, @Param('teamId') teamId: string){
+        return this.teamService.getTeamContest(req.user.userId, +teamId);
+    }
     
     @UseGuards(LoginedGuard)
     @Get()
