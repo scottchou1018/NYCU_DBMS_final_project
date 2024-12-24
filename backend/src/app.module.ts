@@ -7,10 +7,12 @@ import { TeamModule } from './team/team.module';
 import { ContestModule } from './contest/contest.module';
 import { ScoreboardModule } from './scoreboard/scoreboard.module';
 import { DatabaseService } from './database/database.service';
+import { AuthModule } from './auth/auth.module';
+import { UserService } from './user/user.service';
 
 @Module({
-  imports: [UserModule, GroupModule, TeamModule, ContestModule, ScoreboardModule],
+  imports: [UserModule, GroupModule, TeamModule, ContestModule, ScoreboardModule, AuthModule],
   controllers: [AppController],
-  providers: [AppService, DatabaseService],
+  providers: [AppService, DatabaseService, UserService],
 })
 export class AppModule {}

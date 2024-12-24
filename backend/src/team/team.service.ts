@@ -1,4 +1,127 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
+import { DatabaseService } from 'src/database/database.service';
 
 @Injectable()
-export class TeamService {}
+export class TeamService {
+    constructor(private readonly databaseService: DatabaseService){}
+
+    async createTeam(userId: number, teamName: string, members: string[]){
+         /*
+        todo: 
+            1. verify whether codeforces handles exist or not
+            2. add team submission update
+         */
+        const team = await this.databaseService.team.create({
+            data:{
+                teamName: teamName,
+                userId: userId
+            }
+        })
+
+        // add CFuser to the team
+        for(let handle of members){
+            let CFuser = await this.databaseService.cFuser.create({
+                data:{
+                    handle: handle,
+                    lastSubmissionId: 0,
+                    teamId: team.teamId
+                }
+            })
+        }
+        return team;
+    }
+
+
+    
+    async deleteTeam(userId: number, teamId: number){
+        
+        const team = await this.databaseService.team.findUnique({
+            where:{
+                teamId: teamId
+            }
+        })
+
+        if(!team){
+            throw new BadRequestException("the team is not found")
+        }
+        if(team.userId != userId){
+            throw new ForbiddenException("this team is not create by you")
+        }
+
+        return await this.databaseService.team.delete({
+            where:{
+                userId: userId,
+                teamId: teamId
+            }
+        })
+    }
+    
+
+    async getAllTeamInfo(userId: number){
+        let teams = await this.databaseService.team.findMany({
+            where:{
+                userId: userId
+            }
+        })
+
+        let teams_with_member = []
+        for(let team of teams){
+            let members_database_format = await this.databaseService.cFuser.findMany({
+                select:{
+                    handle: true
+                },
+                where:{
+                    teamId: team.teamId
+                }
+            })
+
+            teams_with_member.push({
+                teamId: team.teamId,
+                teamName: team.teamName,
+                members: this.membersFormatTransform(members_database_format)
+            })
+        }
+        return teams_with_member
+    }
+
+    async getTeamInfo(userId: number, teamId: number){
+        const team = await this.databaseService.team.findUnique({
+            where:{
+                teamId: teamId
+            }
+        })
+        console.log(userId)
+        if(!team){
+            throw new BadRequestException("the team is not found")
+        }
+        if(team.userId != userId){
+            throw new ForbiddenException("this team is not create by you")
+        }
+
+        let members_database_format = await this.databaseService.cFuser.findMany({
+            select:{
+                handle: true
+            },
+            where:{
+                teamId: teamId
+            }
+        })
+
+        return {
+            "teamName": team.teamName,
+            "members": this.membersFormatTransform(members_database_format)
+        };
+
+    }
+
+    // transform the members database format to return format
+    membersFormatTransform(members_database_format){
+        let return_format = []
+        for(let member of members_database_format){
+            return_format.push(member.handle)
+        }
+        return return_format
+    }
+
+
+}
