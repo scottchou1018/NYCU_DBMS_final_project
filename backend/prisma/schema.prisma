@@ -46,6 +46,8 @@ model CFuser{
 model Contest{
     contestId       Int         @id
     contestName     String
+    problemCount    Int
+    problemIndices  String
     participation  Participation[]
 }
 

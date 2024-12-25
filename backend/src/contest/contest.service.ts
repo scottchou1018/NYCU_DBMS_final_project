@@ -24,20 +24,20 @@ export class ContestService {
      * @param contestId the contest id in codeforces
      * @param contestName the name of the contest
      */
-    async checkOrCreateContest(contestId: number, contestName: string){
-        let contest = await this.databaseService.contest.findUnique({
-            where: {
-                contestId: contestId
-            }
-        })
-        if(!contest){
-            contest = await this.databaseService.contest.create({
-                data:{
-                    contestId: contestId,
-                    contestName: contestName
-                }
-            })
-        }
-        return contest
-    }
+    // async checkOrCreateContest(contestId: number, contestName: string){
+    //     let contest = await this.databaseService.contest.findUnique({
+    //         where: {
+    //             contestId: contestId
+    //         }
+    //     })
+    //     if(!contest){
+    //         contest = await this.databaseService.contest.create({
+    //             data:{
+    //                 contestId: contestId,
+    //                 contestName: contestName
+    //             }
+    //         })
+    //     }
+    //     return contest
+    // }
 }

@@ -96,13 +96,9 @@ export class ScoreboardService {
             return -1
         })
         
-        let result_of_First_Participation = await this.getProblemResult(first_participation)
-        let problems_index = Object.keys(result_of_First_Participation)
-        problems_index.sort()
-
         return {
             "contestName": contest.contestName,
-            "problems": problems_index,
+            "problems": contest.problemIndices,
             "ranks": teamRank
         }
     }

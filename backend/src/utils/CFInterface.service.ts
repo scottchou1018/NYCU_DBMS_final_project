@@ -112,12 +112,18 @@ export class CFInterface{
                     where: { contestId: contestId }
                 });
                 if (existContest === null) {
+                    let problemIndices = "";
                     const response = await axios.get<ApiResponse<any>>(`${API_BASE_URL}/contest.standings?contestId=${contestId}`);
+                    for (let i = 0; i < response.data.result.problems.length; i++) {
+                        problemIndices += response.data.result.problems[i].index;
+                    }
                     const contestName = response.data.result.contest.name;
                     await this.databaseService.contest.create({
                         data: {
                             contestId: contestId,
                             contestName: contestName,
+                            problemCount: response.data.result.problems.length,
+                            problemIndices: problemIndices
                         }
                     });
                 }
