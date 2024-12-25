@@ -44,7 +44,7 @@ model CFuser{
 }
 
 model Contest{
-    contestId       Int         @id @default(autoincrement())
+    contestId       Int         @id
     contestName     String
     participation  Participation[]
 }
