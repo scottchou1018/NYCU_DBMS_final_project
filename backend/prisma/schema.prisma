@@ -10,40 +10,44 @@ model User{
     username    String      @unique
     password    String
 
-    userGroup   UserGroup[]
-
+    groups      Group[]
+    teams       Team[]
 }
-
-
 
 model Group{
     groupId     Int         @id @default(autoincrement())
     groupName   String
+    userId      Int
 
-    userGroup   UserGroup[]
+    user        User        @relation(fields: [userId], references: [userId], onDelete: Cascade)
     groupTeam   GroupTeam[]
 }
 
 model Team {
     teamId      Int         @id @default(autoincrement())
     teamName    String
+    userId      Int
 
-    teamCFuser  TeamCFuser[]
+    user        User        @relation(fields: [userId], references: [userId], onDelete: Cascade)
+    CFusers     CFuser[]
     groupTeam   GroupTeam[]
-    participation Participation[]
+    participations Participation[]
 }
 
 model CFuser{
     CFuserId            Int         @id @default(autoincrement())
-    handle              String      @unique
+    handle              String      
     lastSubmissionId    Int
-    teamCFuser          TeamCFuser[]
+    teamId              Int
+    team                Team        @relation(fields: [teamId], references: [teamId], onDelete: Cascade)
 
 }
 
 model Contest{
-    contestId       Int         @id @default(autoincrement())
+    contestId       Int         @id
     contestName     String
+    problemCount    Int
+    problemIndices  String
     participation  Participation[]
 }
 
@@ -54,7 +58,7 @@ model ProblemResult{
     problemName     String
     problemIndex    String
     penalty         Int
-    status          PROBLEM_STATUS
+    status          String
     triesCount      Int
     participation   Participation @relation(fields: [teamId, contestId], references: [teamId, contestId], onDelete: Cascade)
 }
@@ -71,22 +75,6 @@ model Participation{
     @@id([teamId, contestId])
 }
 
-model TeamCFuser{
-    teamId      Int
-    CFuserId    Int
-    team        Team    @relation(fields: [teamId], references: [teamId], onDelete: Cascade)
-    CFuser      CFuser   @relation(fields: [CFuserId], references: [CFuserId], onDelete: Cascade)
-    @@id([teamId, CFuserId])
-}
-
-model UserGroup{
-    
-    groupId     Int
-    userId      Int
-    user        User    @relation(fields: [userId], references: [userId], onDelete: Cascade)
-    group       Group   @relation(fields: [groupId], references: [groupId], onDelete: Cascade)
-    @@id([groupId, userId])
-}
 
 model GroupTeam{
     groupId     Int
@@ -109,11 +97,12 @@ datasource db {
 
 
 
-enum PROBLEM_STATUS{
-    AC
-    WA
-    TLE
-    MLE
-    RE
-    CE
-}
+// enum PROBLEM_STATUS{
+//     OK
+//     WRONG_ANSWER
+//     TIME_LIMIT_EXCEEDED
+//     MLE
+//     RUNTIME_ERROR
+//     COMPILATION_ERROR
+//     NOT_ATTEMPTED
+// }
