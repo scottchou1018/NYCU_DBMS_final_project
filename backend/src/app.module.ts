@@ -10,10 +10,14 @@ import { DatabaseService } from './database/database.service';
 import { AuthModule } from './auth/auth.module';
 import { UserService } from './user/user.service';
 import { GroupService } from './group/group.service';
+import { SchedulerService } from './scheduler/scheduler.service';
+import { ScheduleModule } from '@nestjs/schedule';
+import { CFInterface } from './utils/CFInterface.service';
+import { UtilsModule } from './utils/utils.module';
 
 @Module({
-  imports: [UserModule, GroupModule, TeamModule, ContestModule, ScoreboardModule, AuthModule],
+  imports: [UserModule, GroupModule, TeamModule, ContestModule, ScoreboardModule, AuthModule, ScheduleModule.forRoot(), UtilsModule],
   controllers: [AppController],
-  providers: [AppService, DatabaseService, UserService, GroupService],
+  providers: [AppService, DatabaseService, UserService, GroupService, SchedulerService, CFInterface],
 })
 export class AppModule {}

@@ -1,9 +1,13 @@
 import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
+import { CFInterface } from 'src/utils/CFInterface.service';
 
 @Injectable()
 export class TeamService {
-    constructor(private readonly databaseService: DatabaseService){}
+    constructor(
+        private readonly databaseService: DatabaseService,
+        private readonly cfInterface: CFInterface
+    ){}
 
     async createTeam(userId: number, teamName: string, members: string[]){
          /*
@@ -11,6 +15,14 @@ export class TeamService {
             1. verify whether codeforces handles exist or not
             2. add team submission update
          */
+
+        for(let handle of members){
+            let exist = await this.cfInterface.checkHandleExist(handle)
+            if(!exist){
+                throw new BadRequestException("the handle: " + handle + " does not exist")
+            }
+        }
+
         const team = await this.databaseService.team.create({
             data:{
                 teamName: teamName,
@@ -28,6 +40,7 @@ export class TeamService {
                 }
             })
         }
+        await this.cfInterface.updateTeamSubmission(team.teamId)
         return team;
     }
 

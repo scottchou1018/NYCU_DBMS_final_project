@@ -36,7 +36,7 @@ model Team {
 
 model CFuser{
     CFuserId            Int         @id @default(autoincrement())
-    handle              String
+    handle              String      
     lastSubmissionId    Int
     teamId              Int
     team                Team        @relation(fields: [teamId], references: [teamId], onDelete: Cascade)
@@ -56,7 +56,7 @@ model ProblemResult{
     problemName     String
     problemIndex    String
     penalty         Int
-    status          PROBLEM_STATUS
+    status          String
     triesCount      Int
     participation   Participation @relation(fields: [teamId, contestId], references: [teamId, contestId], onDelete: Cascade)
 }
@@ -95,11 +95,12 @@ datasource db {
 
 
 
-enum PROBLEM_STATUS{
-    AC
-    WA
-    TLE
-    MLE
-    RE
-    CE
-}
+// enum PROBLEM_STATUS{
+//     OK
+//     WRONG_ANSWER
+//     TIME_LIMIT_EXCEEDED
+//     MLE
+//     RUNTIME_ERROR
+//     COMPILATION_ERROR
+//     NOT_ATTEMPTED
+// }
