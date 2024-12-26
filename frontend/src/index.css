@@ -1,0 +1,99 @@
+/* filepath: /d:/Database/NYCU_DBMS_final_project/frontend/src/index.css */
+
+/* 全局样式 */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* App 组件样式 */
+.App {
+  text-align: center;
+}
+
+.App nav {
+  background-color: #282c34;
+  padding: 1rem;
+}
+
+.App nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+.App nav ul li {
+  display: inline;
+  margin: 0 1rem;
+}
+
+.App nav ul li a {
+  color: #61dafb;
+  text-decoration: none;
+}
+
+.App nav ul li a:hover {
+  text-decoration: underline;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+/* Home 组件样式 */
+.Home {
+  padding: 2rem;
+}
+
+.Home h1 {
+  color: #282c34;
+}
+
+.Home p {
+  color: #61dafb;
+}
+
+/* About 组件样式 */
+.About {
+  padding: 2rem;
+}
+
+.About h1 {
+  color: #282c34;
+}
+
+.About p {
+  color: #61dafb;
+}
+
+/* NotFound 组件样式 */
+.NotFound {
+  padding: 2rem;
+}
+
+.NotFound h1 {
+  color: #ff0000;
+}
+
+.NotFound p {
+  color: #282c34;
+}
