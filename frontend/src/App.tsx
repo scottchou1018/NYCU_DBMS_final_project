@@ -1,9 +1,11 @@
 // import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Home from './assets/Home';
-import About from './assets/About';
 import NotFound from './assets/NotFound';
 import './App.css';
+import Login from './assets/Login';
+import Logout from './assets/Logout';
+import Analysis from './assets/analysis';
 
 function App() {
   return (
@@ -21,7 +23,9 @@ function App() {
         </nav>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/logout" element={<Logout />} />
+          <Route path="/analysis" element={<Analysis />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

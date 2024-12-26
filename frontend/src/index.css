@@ -1,6 +1,3 @@
-/* filepath: /d:/Database/NYCU_DBMS_final_project/frontend/src/index.css */
-
-/* 全局样式 */
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -15,8 +12,7 @@ code {
     monospace;
 }
 
-/* App 组件样式 */
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -59,7 +55,6 @@ code {
   color: #61dafb;
 }
 
-/* Home 组件样式 */
 .Home {
   padding: 2rem;
 }
@@ -72,7 +67,6 @@ code {
   color: #61dafb;
 }
 
-/* About 组件样式 */
 .About {
   padding: 2rem;
 }
@@ -85,7 +79,6 @@ code {
   color: #61dafb;
 }
 
-/* NotFound 组件样式 */
 .NotFound {
   padding: 2rem;
 }
@@ -96,4 +89,4 @@ code {
 
 .NotFound p {
   color: #282c34;
-}
+} */
