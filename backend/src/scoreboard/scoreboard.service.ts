@@ -32,8 +32,6 @@ export class ScoreboardService {
             throw new BadRequestException("the contest doesn't exist");
         }
 
-        
-
         const teams = await this.databaseService.groupTeam.findMany({
             select:{
                 team: true
@@ -66,7 +64,7 @@ export class ScoreboardService {
                     teamName: teams[i].team.teamName,
                     ACcount: participation.ACcount,
                     penalty: participation.totalPenalty,
-                    problemStatus: await this.getProblemResult(participation)
+                    problemStatus: await this.getProblemResult(participation, contest.problemIndices)
                 })
             }
         }
@@ -103,8 +101,7 @@ export class ScoreboardService {
         }
     }
     
-    // 
-    async getProblemResult(participation){
+    async getProblemResult(participation, problemIndices: string){
         let problemResults = await this.databaseService.problemResult.findMany({
             where:{
                 teamId: participation.teamId,
@@ -120,7 +117,16 @@ export class ScoreboardService {
                 "triesCount": problemResult.triesCount
             }
         }
-        return resultFormat
 
+        for(let problemIndex of problemIndices){
+            if(!resultFormat[problemIndex]){
+                resultFormat[problemIndex] = {
+                    "status": "UNATTEMPTED",
+                    "penalty": 0,
+                    "triesCount": 0
+                }
+            }
+        }
+        return resultFormat
     }
 }
