@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const test_scoreboard = {
   "contestName": "ICPC Taichung",
@@ -93,14 +95,35 @@ function analysisTeamResult(problems_index: string[], teamResult: any, rank: num
 
 }
 
+
+
 function Analysis() {
-  let problems_index: string[] = test_scoreboard.problems
-  return (
+  const [userId, setUser] = useState<number | null>(null);
+  let problems_index = test_scoreboard.problems
+  useEffect(() => {
+    const fetchUserStatus = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/auth/status',{
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true
+        });
+        console.log(response)
+        setUser(response.data.userId);
+      } catch (error) {
+        console.error('There was an error fetching the user status!', error);
+      }
+    };
+
+    fetchUserStatus();
+  }, []);
+    return (
     <div>
       <h1>Analysis Page</h1>
-      <p>Welcome to the Analysis page!</p>
-      <h2>{test_scoreboard.contestName}</h2>
+      <p>Welcome { userId ? userId : 'Guest' } to the Analysis page!</p>
       <div className="scoreboard">
+        <h2>{test_scoreboard.contestName}</h2>
         <table>
           <caption>
             ScoreBoard
