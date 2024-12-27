@@ -99,7 +99,9 @@ function analysisTeamResult(problems_index: string[], teamResult: any, rank: num
 
 function Analysis() {
   const [userId, setUser] = useState<number | null>(null);
-  let problems_index = test_scoreboard.problems
+  // const [groupId, setGroupId] = useState<number | null>(null);
+  // const []
+  // const [scoreboard, setScoreboard] = useState<any>(null);
   useEffect(() => {
     const fetchUserStatus = async () => {
       try {
@@ -118,6 +120,12 @@ function Analysis() {
 
     fetchUserStatus();
   }, []);
+
+  useEffect(() => {
+    
+  }, [userId])
+
+
     return (
     <div>
       <h1>Analysis Page</h1>
@@ -133,7 +141,7 @@ function Analysis() {
               <th>Rank</th>
               <th>Team Name</th>
               {
-                problems_index.map((problem_index) => (
+                test_scoreboard.problems.map((problem_index) => (
                   <th className="scoreboard-row">{problem_index}</th>
                 ))
               }
@@ -142,7 +150,7 @@ function Analysis() {
             </tr>
             {
               test_scoreboard.rank.map((teamResult, index) => {
-                return analysisTeamResult(problems_index, teamResult, index + 1)
+                return analysisTeamResult(test_scoreboard.problems, teamResult, index + 1)
               })
             }
           </thead>
