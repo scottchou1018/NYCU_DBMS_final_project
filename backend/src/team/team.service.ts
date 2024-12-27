@@ -103,7 +103,6 @@ export class TeamService {
                 teamId: teamId
             }
         })
-        console.log(userId)
         if(!team){
             throw new BadRequestException("the team is not found")
         }

@@ -22,8 +22,12 @@ export class CFInterface{
     private executable: boolean = true;
     
     async checkHandleExist(handle: string) {
-        const response = await axios.get<ApiResponse<any>>(`${API_BASE_URL}/user.info?handles=${handle}`);
-        return response.data.status === 'OK';
+        try {
+            const response = await axios.get<ApiResponse<any>>(`${API_BASE_URL}/user.info?handles=${handle}`);
+            return response.data.status === 'OK';
+        } catch(error) {
+            return 0;
+        }
     }
 
     async getHandleSubmission(teamId: number, handle: string, lastSubmissionId: number) {

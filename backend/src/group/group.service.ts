@@ -1,6 +1,7 @@
 import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
 import { TeamService } from 'src/team/team.service';
+import { UpdateGroupDto } from './dto/createGroupDto';
 
 @Injectable()
 export class GroupService {
@@ -65,6 +66,61 @@ export class GroupService {
         return await this.databaseService.group.delete({
             where:{
                 userId: userId,
+                groupId: groupId
+            }
+        })
+    }
+
+    async updateGroup(userId: number, groupId: number, updateGroupDto: UpdateGroupDto){
+        const group = await this.databaseService.group.findUnique({
+            where:{
+                groupId: groupId
+            }
+        })
+        if(!group){
+            throw new BadRequestException("the group is not found")
+        }
+        if(group.userId != userId){
+            throw new ForbiddenException("this group is not create by you")
+        }
+
+        if(updateGroupDto.teams){
+            for(let teamId of updateGroupDto.teams){
+                const team = await this.databaseService.team.findUnique({
+                    where:{
+                        teamId: teamId
+                    }
+                })
+                if(!team){
+                    throw new BadRequestException(`team ${teamId} not found`)
+                }
+            }
+            await this.databaseService.groupTeam.deleteMany({
+                where: {
+                    groupId: groupId
+                }
+            })
+            for(let teamId of updateGroupDto.teams){
+                await this.databaseService.groupTeam.create({
+                    data:{
+                        teamId: teamId,
+                        groupId: groupId
+                    }
+                })
+            }
+        }
+        if(updateGroupDto.groupName){
+            await this.databaseService.group.update({
+                where:{
+                    groupId: groupId
+                },
+                data:{
+                    groupName: updateGroupDto.groupName
+                }
+            })
+        }
+        return await this.databaseService.group.findUnique({
+            where:{
                 groupId: groupId
             }
         })
@@ -147,7 +203,7 @@ export class GroupService {
             throw new ForbiddenException("this group is not create by you")
         }
         
-        let contestSet = new Set()
+        let contestSet = new Set<number>()
         const groupTeams = await this.databaseService.groupTeam.findMany({
             where:{
                 groupId: groupId
@@ -160,8 +216,23 @@ export class GroupService {
                 contestSet.add(contest)
             }
         }
+        
+        let contestIds = Array.from(contestSet)
+        let contests = []
+        for(let contestId of contestIds){
+            const contest = await this.databaseService.contest.findUnique({
+                select:{
+                    contestId: true,
+                    contestName: true
+                },
+                where:{
+                    contestId: contestId
+                }
+            })
+            contests.push(contest)
+        }
         return {
-            "contests": Array.from(contestSet)
+            contests: contests
         }
     }
 }
