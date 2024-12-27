@@ -10,7 +10,6 @@ export class CreateGroupDto{
 
     @IsArray()
     @IsInt({each: true})
-    @ArrayMinSize(1)
     public readonly teams: number[];
 }
 
