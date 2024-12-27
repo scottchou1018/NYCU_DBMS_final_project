@@ -147,7 +147,7 @@ export class GroupService {
             throw new ForbiddenException("this group is not create by you")
         }
         
-        let contestSet = new Set()
+        let contestSet = new Set<number>()
         const groupTeams = await this.databaseService.groupTeam.findMany({
             where:{
                 groupId: groupId
@@ -160,8 +160,23 @@ export class GroupService {
                 contestSet.add(contest)
             }
         }
+        
+        let contestIds = Array.from(contestSet)
+        let contests = []
+        for(let contestId of contestIds){
+            const contest = await this.databaseService.contest.findUnique({
+                select:{
+                    contestId: true,
+                    contestName: true
+                },
+                where:{
+                    contestId: contestId
+                }
+            })
+            contests.push(contest)
+        }
         return {
-            "contests": Array.from(contestSet)
+            contests: contests
         }
     }
 }
