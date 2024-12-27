@@ -172,6 +172,7 @@ function Analysis() {
           withCredentials: true
         })
         setGroupList(response.data);
+        console.log(response);
       } catch (error) {
         console.error("There was an error fetching groups data!", error);
       }
@@ -185,7 +186,7 @@ function Analysis() {
       return;
     const fetchContestList = async () => {
       try{
-        const response = await axios.get('http://localhost:3000/group/contest',{
+        const response = await axios.get('http://localhost:3000/group/contest/' + groupId,{
           headers: {
             'Content-Type': 'application/json',
           },
@@ -194,7 +195,7 @@ function Analysis() {
         setContestList(response.data['contests']);
         console.log(response);
       } catch (error) {
-        console.error("There was an error fetching groups data!", error);
+        console.error("There was an error fetching contests data!", error);
       }
     }
     fetchContestList()
@@ -216,10 +217,10 @@ function Analysis() {
       }
 
       { contestList && 
-      <select className="select" onChange={(e) => {setGroupId(Number(e.target.value))}}>
+      <select className="select" onChange={(e) => {setContestId(Number(e.target.value))}}>
         {
-          contestList.map((group) => (
-            <option value={group.groupId}>{group.groupName}</option>
+          contestList.map((contest) => (
+            <option value={contest.contestId}>{contest.contestName}</option>
           ))
         }
       </select>
