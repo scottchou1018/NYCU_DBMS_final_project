@@ -1,7 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Post, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { LoginedGuard } from 'src/auth/utils/guards/LoginedGuard';
 import { DatabaseService } from 'src/database/database.service';
-import { CreateGroupDto } from './dto/createGroupDto';
+import { CreateGroupDto, UpdateGroupDto } from './dto/createGroupDto';
 import { GroupService } from './group.service';
 
 
@@ -22,6 +22,12 @@ export class GroupController {
     @Delete(':groupId')
     deleteGroup(@Req()req, @Param('groupId') groupId: string){
         return this.groupService.deleteGroup(req.user.userId, +groupId);
+    }
+
+    @UseGuards(LoginedGuard)
+    @Patch(':groupId')
+    updateGroup(@Req()req, @Param('groupId') groupId: string, @Body() body: UpdateGroupDto){
+        return this.groupService.updateGroup(req.user.userId, +groupId, body);
     }
 
     @UseGuards(LoginedGuard)

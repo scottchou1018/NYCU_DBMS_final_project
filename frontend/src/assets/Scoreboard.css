@@ -1,0 +1,35 @@
+.accepted{
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    text-decoration: none;
+    
+}
+
+.accepted:hover{
+    background-color: #45a049;
+}
+.wrong-answer{
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.unattempted{
+    background-color: #aeaaaa;
+    color: white;
+    border: none;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    text-decoration: none;
+}

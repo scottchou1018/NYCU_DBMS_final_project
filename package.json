@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "@nestjs/passport": "^10.0.3",
-    "bcrypt": "^5.1.1"
-  }
-}
