@@ -16,6 +16,7 @@ function analysisTeamResult(problems_index: string[], teamResult: any, rank: num
             <td className={result.status === "OK" ? "accepted" : 
             (result.status === "UNATTEMPTED" ? "unattempted" : "wrong-answer")}>
                 <p>{result.penalty}</p>
+                <p>+{result.triesCount}</p>
             </td>
           ))
         }
