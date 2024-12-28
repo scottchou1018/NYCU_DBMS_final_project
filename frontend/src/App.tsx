@@ -6,6 +6,7 @@ import './App.css';
 import Login from './assets/Login';
 import Logout from './assets/Logout';
 import Analysis from './assets/Analysis';
+import Manage from './assets/manage';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/analysis" element={<Analysis />} />
+          <Route path="/manage" element={<Manage/>}></Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
