@@ -1,3 +1,5 @@
+import "./Manage.css"
+
 import { useEffect, useState } from "react";
 import axios from "axios"; // Adjust the path as necessary
 import Modal from 'react-modal'; // Adjust the path as necessary or use the correct library
@@ -230,7 +232,6 @@ function Manage() {
         <div>
         <h1>Manage</h1>
         <h2>Group List</h2>
-        <h2>Group Dropdown {groupId}</h2>
         <select
             value={groupId ?? ""}
             onChange={(e) => {
@@ -262,13 +263,13 @@ function Manage() {
             ))}
         </ul>
         <h3>{modifyGroupMessage}</h3>
-        <button onClick={() => {handleGroupUpdate(); clearChosenTeam();}}> Submit </button>
-        <button onClick={() => setShowAddTeamModal(true)}> Add team </button>
-        <button onClick={() => setShowAddGroupModal(true)}> Add group </button>
-        <button onClick={() => setShowDeleteTeamModal(true)}> Delete team </button>
-        <button onClick={() => setShowDeleteGroupModal(true)}> Delete group </button>
-        <Modal isOpen={showAddTeamModal}>
-            <div>
+        <button onClick={() => {handleGroupUpdate(); clearChosenTeam();}} className="manage-button"> Submit </button>
+        <button onClick={() => setShowAddTeamModal(true)} className="manage-button"> Add team </button>
+        <button onClick={() => setShowAddGroupModal(true)} className="manage-button"> Add group </button>
+        <button onClick={() => setShowDeleteTeamModal(true)} className="manage-button"> Delete team </button>
+        <button onClick={() => setShowDeleteGroupModal(true)} className="manage-button"> Delete group </button>
+        <Modal isOpen={showAddTeamModal} className="form-modal">
+            <div className="form-container">
             <form onSubmit={handleAddTeam}>
                 <label>
                 Team Name:
@@ -312,8 +313,8 @@ function Manage() {
             <button onClick={() => { setShowAddTeamModal(false); setModalMessage(''); }}>Close</button>
             </div>
         </Modal>
-        <Modal isOpen={showAddGroupModal}>
-            <div>
+        <Modal isOpen={showAddGroupModal} className="form-modal">
+            <div className="form-container">
             <form onSubmit={handleAddGroup}>
                 <label>
                 Group Name:
@@ -330,8 +331,8 @@ function Manage() {
             <button onClick={() => {setShowAddGroupModal(false); setModalMessage('')}}>Close</button>
             </div>
         </Modal>
-        <Modal isOpen={showDeleteTeamModal}>
-            <div>
+        <Modal isOpen={showDeleteTeamModal} className="form-modal">
+            <div className="form-container">
                 <ul>
                 {Array.from(teamMap.values()).map((team) => (
                     <li key={team.teamId}>
@@ -353,8 +354,8 @@ function Manage() {
                 <button onClick={() => setShowDeleteTeamModal(false)}> Close </button>
             </div>
         </Modal>
-        <Modal isOpen={showDeleteGroupModal}>
-            <div>
+        <Modal isOpen={showDeleteGroupModal} className="form-modal">
+            <div className="form-container">
                 <ul>
                 {Array.from(groupMap.values()).map((group) => (
                     <li key={group.groupId}>

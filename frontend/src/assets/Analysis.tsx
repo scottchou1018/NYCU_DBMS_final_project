@@ -1,104 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Scoreboard from './Scoreboard';
-
-
-
-const test_scoreboard = {
-  "contestName": "ICPC Taichung",
-  "problems": ["A", "B", "C", "D"],
-  "rank":[
-      {
-          "teamId": 1,
-          "teamName": "NYCU_CartesianTree",
-          "ACcount": 4,
-          "penalty": 100,
-          "problemStatus":
-          {
-              "A":
-              {
-                  "status": "Accepted",
-                  "penalty": 2,
-                  "triesCount": 0
-              },
-              "B":
-              {
-                  "status": "Accepted",
-                  "penalty": 10,
-                  "triesCount": 0
-              },
-              "C":
-              {
-                  "status": "Accepted",
-                  "penalty": 23,
-                  "triesCount": 0
-              },
-              "D":
-              {
-                  "status": "Accepted",
-                  "penalty": 65,
-                  "triesCount": 0
-              }
-          }
-      },
-      {
-          "teamId": 2,
-          "teamName": "NYCU_MYGO",
-          "ACcount": 1,
-          "penalty": 5,
-          "problemStatus":
-          {
-              "A":
-              {
-                  "status": "Accepted",
-                  "penalty": 5,
-                  "triesCount": 0
-              },
-              "B":
-              {
-                  "status": "Wrong_Answer",
-                  "penalty": 0,
-                  "triesCount": 2
-              },
-              "C":
-              {
-                  "status": "Runtime_Error",
-                  "penalty": 0,
-                  "triesCount": 1
-              },
-              "D":
-              {
-                  "status": "Not_tried",
-                  "penalty": 0,
-                  "triesCount": 0
-              }
-          }
-      }
-  ]
-}
-
-function analysisTeamResult(problems_index: string[], teamResult: any, rank: number){
-  let problem_results = []
-  for(let problem_idx of problems_index){
-    problem_results.push(teamResult["problemStatus"][problem_idx])
-  }
-  return (
-    <tr>
-      <td>{rank}</td>
-      <td>{teamResult.teamName}</td>
-      {
-        problem_results.map((result) => (
-          <td className={result.status}> {result.status === "Accepted" ? 1 : 0} </td>
-        ))
-      }
-      <td>{teamResult.penalty}</td>
-      <td>{teamResult.ACcount}</td>
-    </tr>
-  )
-
-}
-
-
+import "./Analysis.css"
 
 function Analysis() {
   const [userId, setUser] = useState<number | null>(null);
@@ -106,7 +9,7 @@ function Analysis() {
   const [groupId, setGroupId] = useState<number | null>(null);
   const [contestId, setContestId] = useState<number | null>(null);
   const [groupList, setGroupList] = useState<any[] | null>(null);
-  const [contestList, setContestList] = useState<number[] | null>(null);
+  const [contestList, setContestList] = useState<any[] | null>(null);
   useEffect(() => {
     const fetchUserStatus = async () => {
       try {
@@ -147,7 +50,13 @@ function Analysis() {
   }, [userId])
 
   useEffect(() => {
+    if(groupList === null)
+        return;
+    if(groupList.length > 0)
+      setGroupId(groupList[0].groupId)
+  }, [groupList])
 
+  useEffect(() => {
     if(groupId === null)
       return;
     const fetchContestList = async () => {
@@ -159,6 +68,9 @@ function Analysis() {
           withCredentials: true
         })
         setContestList(response.data['contests']);
+        if(contestList && contestList.length > 0){
+          setContestId(contestList[0])
+        }
         console.log(response);
       } catch (error) {
         console.error("There was an error fetching contests data!", error);
@@ -168,12 +80,18 @@ function Analysis() {
   }, [groupId])
   
 
+  useEffect(() => {
+    if(contestList === null)
+        return;
+    if(contestList.length > 0)
+      setContestId(contestList[0].contestId)
+  }, [contestList])
+
   return (
     <div>
       <h1>Analysis Page</h1>
-      <p>Welcome { userId ? userId : 'Guest' } to the Analysis page!</p>
       { groupList && 
-      <select className="select" onChange={(e) => {setGroupId(Number(e.target.value))}}>
+      <select className="custom-select" onChange={(e) => {setGroupId(Number(e.target.value))}}>
         {
           groupList.map((group) => (
             <option value={group.groupId}>{group.groupName}</option>
@@ -183,7 +101,7 @@ function Analysis() {
       }
 
       { contestList && 
-      <select className="select" onChange={(e) => {setContestId(Number(e.target.value))}}>
+      <select className="custom-select" onChange={(e) => {setContestId(Number(e.target.value))}}>
         {
           contestList.map((contest) => (
             <option value={contest.contestId}>{contest.contestName}</option>

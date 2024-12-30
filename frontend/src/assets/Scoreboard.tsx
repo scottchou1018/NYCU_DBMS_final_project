@@ -60,7 +60,6 @@ function Scoreboard({groupId, contestId}){
         {
         scoreboard === null ? <p>Loading...</p> :
         <div className="scoreboard">
-                <p>{groupId}:{contestId}</p>
                 <h2>{scoreboard.contestName}</h2>
                 <table>
                 <caption>

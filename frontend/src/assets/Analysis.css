@@ -1,0 +1,36 @@
+select {
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #333;
+    appearance: none; /* 移除預設箭頭樣式 */
+    outline: none;
+    cursor: pointer;
+}
+select:hover {
+    border-color: #888;
+}
+
+select:focus {
+    border-color: #555;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+/* 自訂下拉箭頭 */
+.custom-select::after {
+    content: "▼";
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    font-size: 12px;
+    color: #666;
+}
+
+.custom-select select {
+    padding-right: 40px; /* 留出空間給箭頭 */
+}

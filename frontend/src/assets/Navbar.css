@@ -1,0 +1,63 @@
+.navbar {
+    background-color: white;
+    overflow: hidden;
+    align-items: center;
+    border-radius: 10px;
+    border: solid;
+    border-color: #007BFF;
+    border-radius: 20px;
+
+}
+
+.navbrand {
+    float: left;
+    padding-left: 5px;
+    font-size: 17px;
+}
+
+  /* Style the links inside the navigation bar */
+.navitem {
+    float: left;
+    color: #007BFF;
+
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+  }
+  
+  /* Change the color of links on hover */
+.navitem:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  
+  /* Add a color to the active/current link */
+.navitem.active {
+    background-color: #04AA6D;
+    color: white;
+}
+
+
+.navuser {
+    float: right;
+    color: #007BFF;
+    background-color: transparent;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    border: none;
+  }
+  
+  /* Change the color of links on hover */
+.navuser:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  
+  /* Add a color to the active/current link */
+.navuser.active {
+    background-color: #04AA6D;
+    color: white;
+}
